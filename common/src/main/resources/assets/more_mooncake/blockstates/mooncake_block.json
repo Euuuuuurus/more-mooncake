@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "bites=0": { "model": "more_mooncake:block/mooncake_bite0" },
+    "bites=1": { "model": "more_mooncake:block/mooncake_bite1" },
+    "bites=2": { "model": "more_mooncake:block/mooncake_bite2" },
+    "bites=3": { "model": "more_mooncake:block/mooncake_bite3" },
+    "bites=4": { "model": "more_mooncake:block/mooncake_bite4" },
+    "bites=5": { "model": "more_mooncake:block/mooncake_bite5" },
+    "bites=6": { "model": "more_mooncake:block/mooncake_bite6" },
+    "bites=7": { "model": "more_mooncake:block/mooncake_bite7" }
+  }
+}

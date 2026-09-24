@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "more_mooncake",
+  "version": "${version}",
+  "name": "More Mooncake",
+  "description": "Mid-Autumn Festival mooncakes! 5 flavors x 8 copper-style states (rusted / weathered / oxidized / waxed) with fun food effects. Happy Moon Festival!",
+  "authors": [
+    "more_mooncake"
+  ],
+  "license": "MIT",
+  "icon": "pack.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.moremooncake.mooncake.fabric.MoreMooncakeFabric"
+    ]
+  },
+  "accessWidener": "more_mooncake.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": ">=1.21.1",
+    "java": ">=21",
+    "fabric-api": "*",
+    "architectury": ">=13.0.8"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "more_mooncake:slice",
+  "ingredients": [
+    {"item": "minecraft:wheat"},
+    {"item": "minecraft:egg"}
+  ],
+  "result": {
+    "id": "more_mooncake:xianyadan_mooncake",
+    "count": 1
+  }
+}

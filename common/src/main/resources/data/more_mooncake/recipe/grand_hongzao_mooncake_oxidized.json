@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "more_mooncake:grand",
+  "category": "misc",
+  "pattern": ["xxx", "xex", "xxx"],
+  "key": {
+    "x": { "item": "more_mooncake:hongzao_mooncake_oxidized" },
+    "e": { "item": "minecraft:egg" }
+  },
+  "result": {
+    "id": "more_mooncake:mooncake",
+    "count": 1,
+    "components": {
+      "minecraft:custom_data": {
+        "Slices": [ "more_mooncake:hongzao_mooncake_oxidized", "more_mooncake:hongzao_mooncake_oxidized", "more_mooncake:hongzao_mooncake_oxidized", "more_mooncake:hongzao_mooncake_oxidized", "more_mooncake:hongzao_mooncake_oxidized", "more_mooncake:hongzao_mooncake_oxidized", "more_mooncake:hongzao_mooncake_oxidized", "more_mooncake:hongzao_mooncake_oxidized" ]
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "more_mooncake:slice",
+  "ingredients": [
+    {"item": "minecraft:wheat"},
+    {"item": "minecraft:pumpkin_seeds"}
+  ],
+  "result": {
+    "id": "more_mooncake:wuren_mooncake",
+    "count": 1
+  }
+}

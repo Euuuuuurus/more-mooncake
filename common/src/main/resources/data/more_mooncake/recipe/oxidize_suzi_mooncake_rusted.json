@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "more_mooncake:oxidize",
+  "ingredients": [
+    {"item": "more_mooncake:suzi_mooncake_rusted"},
+    {"item": "minecraft:copper_ingot"}
+  ],
+  "result": {
+    "id": "more_mooncake:suzi_mooncake_weathered",
+    "count": 1
+  }
+}

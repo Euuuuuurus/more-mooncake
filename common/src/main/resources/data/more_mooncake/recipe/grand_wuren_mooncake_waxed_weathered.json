@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "more_mooncake:grand",
+  "category": "misc",
+  "pattern": ["xxx", "xex", "xxx"],
+  "key": {
+    "x": { "item": "more_mooncake:wuren_mooncake_waxed_weathered" },
+    "e": { "item": "minecraft:egg" }
+  },
+  "result": {
+    "id": "more_mooncake:mooncake",
+    "count": 1,
+    "components": {
+      "minecraft:custom_data": {
+        "Slices": [ "more_mooncake:wuren_mooncake_waxed_weathered", "more_mooncake:wuren_mooncake_waxed_weathered", "more_mooncake:wuren_mooncake_waxed_weathered", "more_mooncake:wuren_mooncake_waxed_weathered", "more_mooncake:wuren_mooncake_waxed_weathered", "more_mooncake:wuren_mooncake_waxed_weathered", "more_mooncake:wuren_mooncake_waxed_weathered", "more_mooncake:wuren_mooncake_waxed_weathered" ]
+      }
+    }
+  }
+}

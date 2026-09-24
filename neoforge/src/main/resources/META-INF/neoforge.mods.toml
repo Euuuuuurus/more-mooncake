@@ -1,0 +1,33 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "more_mooncake"
+version = "${version}"
+displayName = "More Mooncake"
+description = '''
+Mid-Autumn Festival mooncakes! 5 flavors x 8 copper-style states (rusted / weathered / oxidized / waxed) with fun food effects. Happy Moon Festival!
+'''
+logoFile = "pack.png"
+
+[[dependencies.more_mooncake]]
+modId = "neoforge"
+mandatory = true
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.more_mooncake]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.21.1,1.22)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.more_mooncake]]
+modId = "architectury"
+mandatory = true
+versionRange = "[13.0.8,)"
+ordering = "AFTER"
+side = "BOTH"

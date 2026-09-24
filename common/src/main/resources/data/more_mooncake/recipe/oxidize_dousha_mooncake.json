@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "more_mooncake:oxidize",
+  "ingredients": [
+    {"item": "more_mooncake:dousha_mooncake"},
+    {"item": "minecraft:iron_nugget"}
+  ],
+  "result": {
+    "id": "more_mooncake:dousha_mooncake_rusted",
+    "count": 1
+  }
+}
