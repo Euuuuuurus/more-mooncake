@@ -5,8 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.moremooncake.mooncake.block.MooncakeBlock;
 import com.moremooncake.mooncake.block.MooncakeBlockEntity;
 import com.moremooncake.mooncake.block.MooncakeGeometry;
-import com.moremooncake.mooncake.item.MooncakeItem;
-import com.moremooncake.mooncake.mooncake.MooncakeFlavor;
+import com.moremooncake.mooncake.item.MooncakeFood;
 import com.moremooncake.mooncake.mooncake.MooncakeState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -34,13 +33,6 @@ import java.util.List;
 public class MooncakeBlockEntityRenderer implements BlockEntityRenderer<MooncakeBlockEntity> {
     /** Rough average colour of the top sheet, used to pre-compensate the multiplicative tint. */
     private static final int[] CRUST = {228, 170, 100};
-    private static final int[][] FLAVOR_COLORS = {
-            {240, 230, 206}, // wuren - seed cream
-            {122, 42, 42},   // dousha - red bean
-            {74, 46, 99},    // suzi - perilla purple
-            {176, 58, 58},   // hongzao - red date
-            {240, 162, 58}   // xianyadan - yolk orange
-    };
     private static final int[][] TIER_COLORS = {
             {194, 112, 59},  // rusted
             {169, 166, 90},  // weathered
@@ -114,10 +106,9 @@ public class MooncakeBlockEntityRenderer implements BlockEntityRenderer<Mooncake
 
     private int[] colorFor(String sliceId) {
         Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(sliceId));
-        if (item instanceof MooncakeItem mi) {
-            MooncakeFlavor flavor = mi.getFlavor();
-            MooncakeState state = mi.getState();
-            int[] c = FLAVOR_COLORS[flavor.ordinal()].clone();
+        if (item instanceof MooncakeFood food) {
+            MooncakeState state = food.mooncakeState();
+            int[] c = food.fillingColor();
             if (state.getTier() > 0) {
                 c = mix(c, TIER_COLORS[state.getTier() - 1], 0.25 * state.getTier());
             }

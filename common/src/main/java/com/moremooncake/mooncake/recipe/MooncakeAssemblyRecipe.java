@@ -1,6 +1,6 @@
 package com.moremooncake.mooncake.recipe;
 
-import com.moremooncake.mooncake.item.MooncakeItem;
+import com.moremooncake.mooncake.item.MooncakeFood;
 import com.moremooncake.mooncake.item.WholeMooncakeItem;
 import com.moremooncake.mooncake.registry.ModItems;
 import com.moremooncake.mooncake.registry.ModRecipes;
@@ -48,7 +48,7 @@ public class MooncakeAssemblyRecipe implements CraftingRecipe {
                 if (i == 1 && j == 1) {
                     continue;
                 }
-                if (!(container.getItem(i, j).getItem() instanceof MooncakeItem)) {
+                if (!(container.getItem(i, j).getItem() instanceof MooncakeFood)) {
                     return false;
                 }
             }
@@ -61,7 +61,7 @@ public class MooncakeAssemblyRecipe implements CraftingRecipe {
         List<String> slices = new ArrayList<>();
         for (int[] pos : CLOCKWISE_RING) {
             ItemStack stack = container.getItem(pos[0], pos[1]);
-            if (stack.getItem() instanceof MooncakeItem) {
+            if (stack.getItem() instanceof MooncakeFood) {
                 slices.add(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString());
             }
         }

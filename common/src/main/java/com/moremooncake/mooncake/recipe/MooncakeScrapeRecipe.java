@@ -1,6 +1,6 @@
 package com.moremooncake.mooncake.recipe;
 
-import com.moremooncake.mooncake.item.MooncakeItem;
+import com.moremooncake.mooncake.item.MooncakeFood;
 import com.moremooncake.mooncake.mooncake.MooncakeFlavor;
 import com.moremooncake.mooncake.mooncake.MooncakeState;
 import com.moremooncake.mooncake.registry.ModItems;
@@ -45,8 +45,8 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
             if (s.isEmpty()) {
                 continue;
             }
-            if (s.getItem() instanceof MooncakeItem mi) {
-                MooncakeState state = mi.getState();
+            if (s.getItem() instanceof MooncakeFood food) {
+                MooncakeState state = food.mooncakeState();
                 if (!state.isWaxed() && state.getTier() == 0) {
                     return false; // fresh slice: nothing to scrape
                 }
@@ -70,7 +70,7 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
     public ItemStack assemble(CraftingInput container, HolderLookup.Provider access) {
         for (int i = 0; i < container.size(); i++) {
             ItemStack s = container.getItem(i);
-            if (s.getItem() instanceof MooncakeItem) {
+            if (s.getItem() instanceof MooncakeFood) {
                 return scraped(s);
             }
         }
@@ -79,11 +79,10 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
 
     /** waxed_* -> unwaxed same tier; oxidized/weathered/rusted -> one tier fresher. */
     public static ItemStack scraped(ItemStack slice) {
-        if (!(slice.getItem() instanceof MooncakeItem mi)) {
+        if (!(slice.getItem() instanceof MooncakeFood food)) {
             return slice.copy();
         }
-        MooncakeFlavor flavor = mi.getFlavor();
-        MooncakeState state = mi.getState();
+        MooncakeState state = food.mooncakeState();
         MooncakeState target = null;
         for (MooncakeState v : MooncakeState.values()) {
             if (state.isWaxed()) {
@@ -97,7 +96,7 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
                 break;
             }
         }
-        return target == null ? slice.copy() : new ItemStack(ModItems.getItem(flavor, target));
+        return target == null ? slice.copy() : food.scrapedTo(target);
     }
 
     @Override

@@ -24,7 +24,7 @@ import java.util.List;
  * </ul>
  * Eight slices (any combination) can be crafted into a grand mooncake.
  */
-public class MooncakeItem extends Item {
+public class MooncakeItem extends Item implements MooncakeFood {
     private final MooncakeFlavor flavor;
     private final MooncakeState state;
 
@@ -63,5 +63,36 @@ public class MooncakeItem extends Item {
 
     public MooncakeState getState() {
         return state;
+    }
+
+    // ---------------- MooncakeFood ----------------
+
+    @Override
+    public MooncakeState mooncakeState() {
+        return state;
+    }
+
+    @Override
+    public List<MobEffectInstance> effectsFor(MooncakeState ignore) {
+        return MooncakeEffects.effectsFor(flavor, state);
+    }
+
+    /** Rough average filling colour per base flavour, matching the block entity renderer. */
+    private static final int[][] FLAVOR_COLORS = {
+            {240, 230, 206}, // wuren - seed cream
+            {122, 42, 42},   // dousha - red bean
+            {74, 46, 99},    // suzi - perilla purple
+            {176, 58, 58},   // hongzao - red date
+            {240, 162, 58}   // xianyadan - yolk orange
+    };
+
+    @Override
+    public int[] fillingColor() {
+        return FLAVOR_COLORS[flavor.ordinal()].clone();
+    }
+
+    @Override
+    public ItemStack scrapedTo(MooncakeState target) {
+        return new ItemStack(com.moremooncake.mooncake.registry.ModItems.getItem(flavor, target));
     }
 }

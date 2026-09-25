@@ -1,8 +1,7 @@
 package com.moremooncake.mooncake.block;
 
-import com.moremooncake.mooncake.item.MooncakeItem;
+import com.moremooncake.mooncake.item.MooncakeFood;
 import com.moremooncake.mooncake.item.WholeMooncakeItem;
-import com.moremooncake.mooncake.mooncake.MooncakeEffects;
 import dev.architectury.platform.Platform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -123,8 +122,8 @@ public class MooncakeBlock extends Block implements EntityBlock {
             be.lastEatGameTime = now;
             // Eat one wedge: apply its effect. Nothing is handed back.
             Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(slices.get(bites)));
-            if (item instanceof MooncakeItem mooncakeItem) {
-                for (MobEffectInstance effect : MooncakeEffects.effectsFor(mooncakeItem.getFlavor(), mooncakeItem.getState())) {
+            if (item instanceof MooncakeFood food) {
+                for (MobEffectInstance effect : food.effectsFor(food.mooncakeState())) {
                     player.addEffect(effect);
                 }
             }

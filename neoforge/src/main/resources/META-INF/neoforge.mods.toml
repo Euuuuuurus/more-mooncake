@@ -7,7 +7,7 @@ modId = "more_mooncake"
 version = "${version}"
 displayName = "More Mooncake"
 description = '''
-Mid-Autumn Festival mooncakes! 5 flavors x 8 copper-style states (rusted / weathered / oxidized / waxed) with fun food effects. Happy Moon Festival!
+Mid-Autumn Festival mooncakes! 5 flavors x 8 copper-style states (rusted / weathered / oxidized / waxed) plus a double-filling addon (12 fillings, 66 combos x 8 states) with fun food effects. Happy Moon Festival!
 '''
 logoFile = "pack.png"
 
