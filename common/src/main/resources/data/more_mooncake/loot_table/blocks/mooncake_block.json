@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "more_mooncake:mooncake_block"
+          "name": "more_mooncake:mooncake"
         }
       ],
       "conditions": [
