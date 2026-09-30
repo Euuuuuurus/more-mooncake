@@ -147,7 +147,7 @@ public class MooncakeBlock extends Block implements EntityBlock {
             }
             ItemStack slice = new ItemStack(item);
             if (!player.getInventory().add(slice)) {
-                player.drop(slice, false);
+                player.drop(slice, false, net.minecraft.util.Prediction.SERVER_ONLY);
             }
         }
     }
