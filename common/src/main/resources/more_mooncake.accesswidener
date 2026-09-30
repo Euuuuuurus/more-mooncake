@@ -1,1 +1,4 @@
 accessWidener v2 named
+
+# Make BlockEntityType constructible in common code (NeoForge ships it public; the vanilla jar keeps it private).
+accessible method net/minecraft/world/level/block/entity/BlockEntityType <init> (Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;Ljava/util/Set;)V

@@ -5,13 +5,19 @@ import com.moremooncake.mooncake.mooncake.MooncakeFlavor;
 import com.moremooncake.mooncake.mooncake.MooncakeState;
 import com.moremooncake.mooncake.registry.ModItems;
 import com.moremooncake.mooncake.registry.ModRecipes;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.RecipeBookCategories;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -118,12 +124,10 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
         return remaining;
     }
 
-    @Override
     public boolean canCraftInDimensions(int width, int height) {
         return width >= 1 && height >= 1;
     }
 
-    @Override
     public ItemStack getResultItem(HolderLookup.Provider access) {
         return new ItemStack(ModItems.getItem(MooncakeFlavor.WUREN, MooncakeState.WAXED));
     }
@@ -134,14 +138,42 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<MooncakeScrapeRecipe> getSerializer() {
         return ModRecipes.MOONCAKE_SCRAPE_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
-        // MUST be the vanilla crafting type, otherwise the crafting table would
-        // never find this recipe.
-        return RecipeType.CRAFTING;
+    public PlacementInfo placementInfo() {
+        // No standard ingredient grid: matching uses a dynamic slice + axe check.
+        return PlacementInfo.NOT_PLACEABLE;
+    }
+
+    @Override
+    public net.minecraft.world.item.crafting.RecipeBookCategory recipeBookCategory() {
+        return RecipeBookCategories.CRAFTING_MISC;
+    }
+
+    /** Serializer codec/stream - kept in sync with the serializer registered in ModRecipes. */
+    public static final MapCodec<MooncakeScrapeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            instance.group(CraftingBookCategory.CODEC.fieldOf("category")
+                            .orElse(CraftingBookCategory.MISC)
+                            .forGetter(MooncakeScrapeRecipe::category))
+                    .apply(instance, MooncakeScrapeRecipe::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, MooncakeScrapeRecipe> STREAM_CODEC =
+            StreamCodec.composite(
+                    CraftingBookCategory.STREAM_CODEC, MooncakeScrapeRecipe::category,
+                    MooncakeScrapeRecipe::new);
+
+    public static final class Serializer implements RecipeSerializer<MooncakeScrapeRecipe> {
+        @Override
+        public MapCodec<MooncakeScrapeRecipe> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, MooncakeScrapeRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
     }
 }

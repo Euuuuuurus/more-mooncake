@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
+import java.util.Set;
+
 /**
  * Registers the grand mooncake block and its block entity type.
  */
@@ -28,7 +30,7 @@ public final class ModBlocks {
 
     public static final RegistrySupplier<BlockEntityType<MooncakeBlockEntity>> MOONCAKE_BE = BLOCK_ENTITIES.register(
             "mooncake_block_entity",
-            () -> BlockEntityType.Builder.of(MooncakeBlockEntity::new, MOONCAKE_BLOCK.get()).build(null));
+            () -> new BlockEntityType<>(MooncakeBlockEntity::new, Set.of(MOONCAKE_BLOCK.get())));
 
     private ModBlocks() {
     }

@@ -3,9 +3,9 @@ package com.moremooncake.mooncake.item;
 import com.moremooncake.mooncake.MoreMooncake;
 import com.moremooncake.mooncake.block.MooncakeBlockEntity;
 import com.moremooncake.mooncake.registry.ModItems;
+import com.moremooncake.mooncake.util.ItemLookup;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -73,7 +73,7 @@ public class WholeMooncakeItem extends BlockItem {
         }
         StringJoiner joiner = new StringJoiner(" → ");
         for (String id : slices) {
-            Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(id));
+            Item item = ItemLookup.byId(id);
             joiner.add(item != Items.AIR ? item.getName(ItemStack.EMPTY).getString() : id);
         }
         return Component.translatable("item." + MoreMooncake.MOD_ID + ".mooncake_full", joiner.toString());

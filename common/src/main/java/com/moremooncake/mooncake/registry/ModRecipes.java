@@ -7,7 +7,6 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 
 /**
  * Registers the custom recipe serializers:
@@ -23,12 +22,10 @@ public final class ModRecipes {
             DeferredRegister.create(MoreMooncake.MOD_ID, Registries.RECIPE_SERIALIZER);
 
     public static final RegistrySupplier<RecipeSerializer<MooncakeAssemblyRecipe>> MOONCAKE_ASSEMBLY_SERIALIZER =
-            SERIALIZERS.register("mooncake_assembly",
-                    () -> new SimpleCraftingRecipeSerializer<>(MooncakeAssemblyRecipe::new));
+            SERIALIZERS.register("mooncake_assembly", MooncakeAssemblyRecipe.Serializer::new);
 
     public static final RegistrySupplier<RecipeSerializer<MooncakeScrapeRecipe>> MOONCAKE_SCRAPE_SERIALIZER =
-            SERIALIZERS.register("mooncake_scrape",
-                    () -> new SimpleCraftingRecipeSerializer<>(MooncakeScrapeRecipe::new));
+            SERIALIZERS.register("mooncake_scrape", MooncakeScrapeRecipe.Serializer::new);
 
     private ModRecipes() {
     }

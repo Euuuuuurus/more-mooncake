@@ -7,6 +7,7 @@ import com.moremooncake.mooncake.block.MooncakeBlockEntity;
 import com.moremooncake.mooncake.block.MooncakeGeometry;
 import com.moremooncake.mooncake.item.MooncakeFood;
 import com.moremooncake.mooncake.mooncake.MooncakeState;
+import com.moremooncake.mooncake.util.ItemLookup;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -14,7 +15,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -105,7 +105,7 @@ public class MooncakeBlockEntityRenderer implements BlockEntityRenderer<Mooncake
     }
 
     private int[] colorFor(String sliceId) {
-        Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(sliceId));
+        Item item = ItemLookup.byId(sliceId);
         if (item instanceof MooncakeFood food) {
             MooncakeState state = food.mooncakeState();
             int[] c = food.fillingColor();

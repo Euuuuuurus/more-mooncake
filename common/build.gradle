@@ -12,7 +12,7 @@ dependencies {
 
     // JEI API only - the plugin lives in common and is packaged into both jars.
     // It is never loaded unless JEI is installed (JEI scans @JeiPlugin classes itself).
-    compileOnly "mezz.jei:jei-1.21.1-common-api:${rootProject.jei_version}"
+    compileOnly "mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}"
 }
 
 publishing {

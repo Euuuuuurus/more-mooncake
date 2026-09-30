@@ -2,13 +2,12 @@ package com.moremooncake.mooncake.block;
 
 import com.moremooncake.mooncake.item.MooncakeFood;
 import com.moremooncake.mooncake.item.WholeMooncakeItem;
+import com.moremooncake.mooncake.util.ItemLookup;
 import dev.architectury.platform.Platform;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -87,15 +86,15 @@ public class MooncakeBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
-                                              Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+                                          Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!(level.getBlockEntity(pos) instanceof MooncakeBlockEntity be)) {
-            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
         List<String> slices = be.getSlices();
         int bites = state.getValue(BITES);
         if (bites >= slices.size()) {
-            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
         if (stack.is(ItemTags.AXES)) {
             if (!level.isClientSide()) {
@@ -105,7 +104,7 @@ public class MooncakeBlock extends Block implements EntityBlock {
                 level.removeBlock(pos, false);
                 stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
         if (!level.isClientSide()) {
             long now = level.getGameTime();
@@ -117,11 +116,11 @@ public class MooncakeBlock extends Block implements EntityBlock {
                     LOGGER.info("eat re-called {} ticks after the last one - blocked (bites={})",
                             now - be.lastEatGameTime, bites);
                 }
-                return ItemInteractionResult.sidedSuccess(false);
+                return InteractionResult.SUCCESS_SERVER;
             }
             be.lastEatGameTime = now;
             // Eat one wedge: apply its effect. Nothing is handed back.
-            Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(slices.get(bites)));
+            Item item = ItemLookup.byId(slices.get(bites));
             if (item instanceof MooncakeFood food) {
                 for (MobEffectInstance effect : food.effectsFor(food.mooncakeState())) {
                     player.addEffect(effect);
@@ -136,13 +135,13 @@ public class MooncakeBlock extends Block implements EntityBlock {
                 level.setBlock(pos, state.setValue(BITES, bites + 1), 3);
             }
         }
-        return ItemInteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
     /** Hands the not yet eaten slices to the player (or drops them at their feet). */
     private static void giveSlices(Player player, List<String> slices, int from) {
         for (int k = from; k < slices.size(); k++) {
-            Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(slices.get(k)));
+            Item item = ItemLookup.byId(slices.get(k));
             if (item == Items.AIR) {
                 continue;
             }
@@ -168,7 +167,7 @@ public class MooncakeBlock extends Block implements EntityBlock {
         if (tool != null && tool.is(ItemTags.AXES)) {
             List<ItemStack> drops = new ArrayList<>();
             for (int k = bites; k < slices.size(); k++) {
-                Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(slices.get(k)));
+                Item item = ItemLookup.byId(slices.get(k));
                 if (item != Items.AIR) {
                     drops.add(new ItemStack(item));
                 }

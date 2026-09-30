@@ -91,8 +91,8 @@ public final class ModItems {
         ResourceLocation loc = id.contains(":")
                 ? ResourceLocation.parse(id)
                 : ResourceLocation.fromNamespaceAndPath("more_mooncake", id);
-        Item item = BuiltInRegistries.ITEM.get(loc);
-        return item == null || item == Items.AIR ? ItemStack.EMPTY : new ItemStack(item);
+        Item item = BuiltInRegistries.ITEM.getOptional(loc).orElse(Items.AIR);
+        return item == Items.AIR ? ItemStack.EMPTY : new ItemStack(item);
     }
 
     public static String itemId(MooncakeFlavor flavor, MooncakeState state) {
