@@ -163,7 +163,7 @@ public class MooncakeBlock extends Block implements EntityBlock {
             return List.of();
         }
         // An axe dismantles the pie into slices, anything else picks up the rest as an item.
-        ItemStack tool = params.getParameter(LootContextParams.TOOL);
+        net.minecraft.world.item.ItemInstance tool = params.getParameter(LootContextParams.TOOL);
         if (tool != null && tool.is(ItemTags.AXES)) {
             List<ItemStack> drops = new ArrayList<>();
             for (int k = bites; k < slices.size(); k++) {

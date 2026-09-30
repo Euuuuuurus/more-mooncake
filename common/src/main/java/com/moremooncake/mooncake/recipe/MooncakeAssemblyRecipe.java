@@ -2,11 +2,9 @@ package com.moremooncake.mooncake.recipe;
 
 import com.moremooncake.mooncake.item.MooncakeFood;
 import com.moremooncake.mooncake.item.WholeMooncakeItem;
-import com.moremooncake.mooncake.registry.ModItems;
 import com.moremooncake.mooncake.registry.ModRecipes;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -63,7 +61,7 @@ public class MooncakeAssemblyRecipe implements CraftingRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput container, HolderLookup.Provider access) {
+    public ItemStack assemble(CraftingInput container) {
         List<String> slices = new ArrayList<>();
         for (int[] pos : CLOCKWISE_RING) {
             ItemStack stack = container.getItem(pos[0], pos[1]);
@@ -78,8 +76,14 @@ public class MooncakeAssemblyRecipe implements CraftingRecipe {
         return width >= 3 && height >= 3;
     }
 
-    public ItemStack getResultItem(HolderLookup.Provider access) {
-        return new ItemStack(ModItems.MOONCAKE.get());
+    @Override
+    public String group() {
+        return "";
+    }
+
+    @Override
+    public boolean showNotification() {
+        return true;
     }
 
     @Override
@@ -88,7 +92,7 @@ public class MooncakeAssemblyRecipe implements CraftingRecipe {
     }
 
     @Override
-    public RecipeSerializer<MooncakeAssemblyRecipe> getSerializer() {
+    public RecipeSerializer<? extends CraftingRecipe> getSerializer() {
         return ModRecipes.MOONCAKE_ASSEMBLY_SERIALIZER.get();
     }
 
@@ -114,16 +118,4 @@ public class MooncakeAssemblyRecipe implements CraftingRecipe {
             StreamCodec.composite(
                     CraftingBookCategory.STREAM_CODEC, MooncakeAssemblyRecipe::category,
                     MooncakeAssemblyRecipe::new);
-
-    public static final class Serializer implements RecipeSerializer<MooncakeAssemblyRecipe> {
-        @Override
-        public MapCodec<MooncakeAssemblyRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, MooncakeAssemblyRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
-    }
 }

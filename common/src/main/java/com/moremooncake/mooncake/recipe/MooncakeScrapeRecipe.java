@@ -1,13 +1,10 @@
 package com.moremooncake.mooncake.recipe;
 
 import com.moremooncake.mooncake.item.MooncakeFood;
-import com.moremooncake.mooncake.mooncake.MooncakeFlavor;
 import com.moremooncake.mooncake.mooncake.MooncakeState;
-import com.moremooncake.mooncake.registry.ModItems;
 import com.moremooncake.mooncake.registry.ModRecipes;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -73,7 +70,7 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput container, HolderLookup.Provider access) {
+    public ItemStack assemble(CraftingInput container) {
         for (int i = 0; i < container.size(); i++) {
             ItemStack s = container.getItem(i);
             if (s.getItem() instanceof MooncakeFood) {
@@ -128,8 +125,14 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
         return width >= 1 && height >= 1;
     }
 
-    public ItemStack getResultItem(HolderLookup.Provider access) {
-        return new ItemStack(ModItems.getItem(MooncakeFlavor.WUREN, MooncakeState.WAXED));
+    @Override
+    public String group() {
+        return "";
+    }
+
+    @Override
+    public boolean showNotification() {
+        return true;
     }
 
     @Override
@@ -138,7 +141,7 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
     }
 
     @Override
-    public RecipeSerializer<MooncakeScrapeRecipe> getSerializer() {
+    public RecipeSerializer<? extends CraftingRecipe> getSerializer() {
         return ModRecipes.MOONCAKE_SCRAPE_SERIALIZER.get();
     }
 
@@ -164,16 +167,4 @@ public class MooncakeScrapeRecipe implements CraftingRecipe {
             StreamCodec.composite(
                     CraftingBookCategory.STREAM_CODEC, MooncakeScrapeRecipe::category,
                     MooncakeScrapeRecipe::new);
-
-    public static final class Serializer implements RecipeSerializer<MooncakeScrapeRecipe> {
-        @Override
-        public MapCodec<MooncakeScrapeRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, MooncakeScrapeRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
-    }
 }

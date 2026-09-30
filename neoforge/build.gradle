@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow"
+    id "com.gradleup.shadow"
 }
 
 architectury {
@@ -7,34 +7,17 @@ architectury {
     neoForge()
 }
 
-base {
-    archivesName = rootProject.archives_base_name + "-neoforge"
-}
-
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
-    runs {
-        client {
-            vmArg "-Xmx4G"
-            vmArg "-Djava.io.tmpdir=D:/agent/aimods/more_mooncake/.build-tmp/tmp"
-        }
-    }
 }
 
 configurations {
-    common
-    shadowCommon
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
     developmentNeoForge.extendsFrom common
 }
 
 dependencies {
-    neoForge "net.neoforged:neoforge:${rootProject.neo_forge_version}"
-    modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
-
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
+    common(project(path: ":common")) { transitive false }
+    shadowBundle project(path: ":common", configuration: "transformProductionNeoForge")
 }
 
 processResources {
@@ -45,43 +28,11 @@ processResources {
     }
 }
 
-shadowJar {
-    exclude "fabric.mod.json"
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier.set("dev-shadow")
-}
-
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    archiveClassifier.set(null)
-}
-
-jar {
-    archiveClassifier.set("dev")
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-publishing {
-    publications {
-        mavenForge(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
-            from components.java
-        }
-    }
-    repositories {
-    }
+// 26.x ships an unpacked, unobfuscated minecraft jar; the bundled common output can exceed the
+// classic 65535-entry zip limit, so the distributable shadow jar needs the zip64 extension.
+tasks.shadowJar {
+    zip64 = true
+    // Only bundle the common module (via shadowBundle), never the whole runtime classpath.
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier.set("")
 }

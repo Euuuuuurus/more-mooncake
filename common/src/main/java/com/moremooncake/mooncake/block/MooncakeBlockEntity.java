@@ -1,13 +1,12 @@
 package com.moremooncake.mooncake.block;
 
 import com.moremooncake.mooncake.registry.ModBlocks;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,27 +36,19 @@ public class MooncakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ListTag list = new ListTag();
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        ValueOutput.TypedOutputList<String> list = output.list(SLICES_KEY, Codec.STRING);
         for (String s : slices) {
-            list.add(StringTag.valueOf(s));
+            list.add(s);
         }
-        tag.put(SLICES_KEY, list);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        slices = new ArrayList<>();
-        if (tag.contains(SLICES_KEY)) {
-            ListTag list = tag.getListOrEmpty(SLICES_KEY);
-            for (int i = 0; i < list.size(); i++) {
-                String value = list.getStringOr(i, "");
-                if (!value.isEmpty()) {
-                    slices.add(value);
-                }
-            }
-        }
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        List<String> loaded = new ArrayList<>();
+        input.listOrEmpty(SLICES_KEY, Codec.STRING).forEach(loaded::add);
+        slices = loaded;
     }
 }

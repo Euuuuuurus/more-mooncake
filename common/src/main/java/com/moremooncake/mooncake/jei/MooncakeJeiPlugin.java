@@ -11,7 +11,7 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -47,8 +47,8 @@ public class MooncakeJeiPlugin implements IModPlugin {
     }
 
     @Override
-    public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(MoreMooncake.MOD_ID, "jei");
+    public Identifier getPluginUid() {
+        return Identifier.fromNamespaceAndPath(MoreMooncake.MOD_ID, "jei");
     }
 
     @Override

@@ -11,7 +11,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -88,9 +88,9 @@ public final class ModItems {
 
     /** A stack of the item registered under {@code "more_mooncake:<id>"}, or empty if unknown. */
     public static ItemStack byId(String id) {
-        ResourceLocation loc = id.contains(":")
-                ? ResourceLocation.parse(id)
-                : ResourceLocation.fromNamespaceAndPath("more_mooncake", id);
+        Identifier loc = id.contains(":")
+                ? Identifier.parse(id)
+                : Identifier.fromNamespaceAndPath("more_mooncake", id);
         Item item = BuiltInRegistries.ITEM.getOptional(loc).orElse(Items.AIR);
         return item == Items.AIR ? ItemStack.EMPTY : new ItemStack(item);
     }

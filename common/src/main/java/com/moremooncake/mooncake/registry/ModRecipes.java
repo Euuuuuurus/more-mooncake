@@ -22,10 +22,12 @@ public final class ModRecipes {
             DeferredRegister.create(MoreMooncake.MOD_ID, Registries.RECIPE_SERIALIZER);
 
     public static final RegistrySupplier<RecipeSerializer<MooncakeAssemblyRecipe>> MOONCAKE_ASSEMBLY_SERIALIZER =
-            SERIALIZERS.register("mooncake_assembly", MooncakeAssemblyRecipe.Serializer::new);
+            SERIALIZERS.register("mooncake_assembly",
+                    () -> new RecipeSerializer<>(MooncakeAssemblyRecipe.CODEC, MooncakeAssemblyRecipe.STREAM_CODEC));
 
     public static final RegistrySupplier<RecipeSerializer<MooncakeScrapeRecipe>> MOONCAKE_SCRAPE_SERIALIZER =
-            SERIALIZERS.register("mooncake_scrape", MooncakeScrapeRecipe.Serializer::new);
+            SERIALIZERS.register("mooncake_scrape",
+                    () -> new RecipeSerializer<>(MooncakeScrapeRecipe.CODEC, MooncakeScrapeRecipe.STREAM_CODEC));
 
     private ModRecipes() {
     }

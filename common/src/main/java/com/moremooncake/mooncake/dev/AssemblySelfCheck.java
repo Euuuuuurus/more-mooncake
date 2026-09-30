@@ -12,7 +12,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -74,7 +74,7 @@ public final class AssemblySelfCheck {
 
             server.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, level)
                     .ifPresentOrElse(holder -> {
-                        ItemStack result = holder.value().assemble(input, server.registryAccess());
+                        ItemStack result = holder.value().assemble(input);
                         List<String> actual = WholeMooncakeItem.getSlices(result);
                         LOGGER.info("assembly lookup OK ({}), slice order {}",
                                 holder.id(), expected.equals(actual) ? "CLOCKWISE OK" : "MISMATCH");
@@ -113,7 +113,7 @@ public final class AssemblySelfCheck {
         };
         int missing = 0;
         for (String key : keys) {
-            if (manager.byKey(ResourceKey.create(Registries.RECIPE, ResourceLocation.parse(key))).isEmpty()) {
+            if (manager.byKey(ResourceKey.create(Registries.RECIPE, Identifier.parse(key))).isEmpty()) {
                 missing++;
                 LOGGER.error("recipe {} is missing", key);
             }
@@ -130,7 +130,7 @@ public final class AssemblySelfCheck {
         }
         manager.getRecipeFor(RecipeType.CRAFTING, CraftingInput.of(3, 3, grid), level)
                 .ifPresentOrElse(holder -> {
-                    ItemStack result = holder.value().assemble(CraftingInput.of(3, 3, grid), server.registryAccess());
+                    ItemStack result = holder.value().assemble(CraftingInput.of(3, 3, grid));
                     List<String> slices = WholeMooncakeItem.getSlices(result);
                     boolean pure = slices.size() == 8 && slices.stream().allMatch(id -> id.equals(BuiltInRegistries.ITEM.getKey(slice).toString()));
                     LOGGER.info("pure grand: matched {}, slices pure={} count={}", holder.id(), pure, slices.size());
@@ -150,7 +150,7 @@ public final class AssemblySelfCheck {
         CraftingInput scrapeInput = CraftingInput.of(3, 3, scrapeGrid);
         manager.getRecipeFor(RecipeType.CRAFTING, scrapeInput, level)
                 .ifPresentOrElse(holder -> {
-                    ItemStack scraped = holder.value().assemble(scrapeInput, server.registryAccess());
+                    ItemStack scraped = holder.value().assemble(scrapeInput);
                     boolean freshWuren = scraped.is(ModItems.getItem(MooncakeFlavor.WUREN, MooncakeState.NORMAL));
                     boolean axeKept = false;
                     int axeDamage = -1;

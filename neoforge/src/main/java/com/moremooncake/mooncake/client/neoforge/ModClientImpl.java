@@ -16,7 +16,8 @@ public final class ModClientImpl {
 
     public static void registerBlockEntityRenderer() {
         BlockEntityType<MooncakeBlockEntity> type = ModBlocks.MOONCAKE_BE.get();
-        BlockEntityRendererProvider<MooncakeBlockEntity> provider = MooncakeBlockEntityRenderer::new;
+        BlockEntityRendererProvider<MooncakeBlockEntity, MooncakeBlockEntityRenderer.State> provider =
+                MooncakeBlockEntityRenderer::new;
         BlockEntityRenderers.register(type, provider);
     }
 }
