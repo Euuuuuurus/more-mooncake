@@ -6,7 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -51,10 +50,13 @@ public class MooncakeBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         slices = new ArrayList<>();
-        if (tag.contains(SLICES_KEY, Tag.TAG_LIST)) {
-            ListTag list = tag.getList(SLICES_KEY, Tag.TAG_STRING);
+        if (tag.contains(SLICES_KEY)) {
+            ListTag list = tag.getListOrEmpty(SLICES_KEY);
             for (int i = 0; i < list.size(); i++) {
-                slices.add(list.getString(i));
+                String value = list.getStringOr(i, "");
+                if (!value.isEmpty()) {
+                    slices.add(value);
+                }
             }
         }
     }

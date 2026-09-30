@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
@@ -80,18 +79,22 @@ public class WholeMooncakeItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.add(Component.translatable("tooltip.more_mooncake.grand_place").withStyle(ChatFormatting.GRAY));
-        tooltipComponents.add(Component.translatable("tooltip.more_mooncake.grand_cut").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, net.minecraft.world.item.component.TooltipDisplay tooltipDisplay,
+                                java.util.function.Consumer<Component> tooltip, TooltipFlag tooltipFlag) {
+        tooltip.accept(Component.translatable("tooltip.more_mooncake.grand_place").withStyle(ChatFormatting.GRAY));
+        tooltip.accept(Component.translatable("tooltip.more_mooncake.grand_cut").withStyle(ChatFormatting.GRAY));
     }
 
     public static List<String> getSlices(ItemStack stack) {
         List<String> out = new ArrayList<>();
         CompoundTag tag = stack.getOrDefault(net.minecraft.core.component.DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        if (tag.contains(SLICES_KEY, Tag.TAG_LIST)) {
-            ListTag list = tag.getList(SLICES_KEY, Tag.TAG_STRING);
+        if (tag.contains(SLICES_KEY)) {
+            ListTag list = tag.getListOrEmpty(SLICES_KEY);
             for (int i = 0; i < list.size(); i++) {
-                out.add(list.getString(i));
+                String value = list.getStringOr(i, "");
+                if (!value.isEmpty()) {
+                    out.add(value);
+                }
             }
         }
         return out;

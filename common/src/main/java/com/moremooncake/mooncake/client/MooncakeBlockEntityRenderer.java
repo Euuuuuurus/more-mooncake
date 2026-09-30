@@ -44,7 +44,7 @@ public class MooncakeBlockEntityRenderer implements BlockEntityRenderer<Mooncake
 
     @Override
     public void render(MooncakeBlockEntity be, float partialTick, PoseStack pose, MultiBufferSource buffer,
-                       int light, int overlay) {
+                       int light, int overlay, net.minecraft.world.phys.Vec3 cameraPos) {
         List<String> slices = be.getSlices();
         if (slices.isEmpty()) {
             return;

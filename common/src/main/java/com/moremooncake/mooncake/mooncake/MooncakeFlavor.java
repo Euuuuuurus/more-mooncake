@@ -9,11 +9,11 @@ import net.minecraft.world.effect.MobEffects;
  * Each flavor has a base nutrition, saturation and a signature status effect.
  */
 public enum MooncakeFlavor {
-    WUREN("wuren", 6, 0.7F, MobEffects.DAMAGE_BOOST),
+    WUREN("wuren", 6, 0.7F, MobEffects.STRENGTH),
     DOUSHA("dousha", 7, 0.8F, MobEffects.REGENERATION),
-    SUZI("suzi", 6, 0.7F, MobEffects.JUMP),
+    SUZI("suzi", 6, 0.7F, MobEffects.JUMP_BOOST),
     HONGZAO("hongzao", 6, 0.7F, MobEffects.ABSORPTION),
-    XIANYADAN("xianyadan", 7, 0.8F, MobEffects.DAMAGE_RESISTANCE);
+    XIANYADAN("xianyadan", 7, 0.8F, MobEffects.RESISTANCE);
 
     private final String registryName;
     private final int nutrition;

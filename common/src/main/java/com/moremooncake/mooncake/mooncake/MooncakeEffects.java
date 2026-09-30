@@ -28,7 +28,7 @@ public final class MooncakeEffects {
         List<MobEffectInstance> out = new ArrayList<>();
         out.add(new MobEffectInstance(flavor.getEffect(), durationTicks, level - 1, false, true, true));
         if (state.isOxidized() && !state.isWaxed()) {
-            out.add(new MobEffectInstance(MobEffects.CONFUSION, 20 * 4, 0, false, true, true));
+            out.add(new MobEffectInstance(MobEffects.NAUSEA, 20 * 4, 0, false, true, true));
         }
         return out;
     }

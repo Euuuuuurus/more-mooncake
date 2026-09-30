@@ -13,9 +13,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * A mooncake slice item (1/8 of a grand mooncake). Food properties are baked
@@ -55,14 +57,15 @@ public class MooncakeItem extends Item implements MooncakeFood {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.add(Component.translatable("tooltip.more_mooncake.festival").withStyle(ChatFormatting.GOLD));
-        tooltipComponents.add(Component.translatable("tooltip.more_mooncake.slice_hint").withStyle(ChatFormatting.DARK_GRAY));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay,
+                                Consumer<Component> tooltip, TooltipFlag tooltipFlag) {
+        tooltip.accept(Component.translatable("tooltip.more_mooncake.festival").withStyle(ChatFormatting.GOLD));
+        tooltip.accept(Component.translatable("tooltip.more_mooncake.slice_hint").withStyle(ChatFormatting.DARK_GRAY));
         if (state.isWaxed()) {
-            tooltipComponents.add(Component.translatable("tooltip.more_mooncake.waxed").withStyle(ChatFormatting.GRAY));
+            tooltip.accept(Component.translatable("tooltip.more_mooncake.waxed").withStyle(ChatFormatting.GRAY));
         }
         if (state.isOxidized() && !state.isWaxed()) {
-            tooltipComponents.add(Component.translatable("tooltip.more_mooncake.oxidized_side_effect").withStyle(ChatFormatting.DARK_RED));
+            tooltip.accept(Component.translatable("tooltip.more_mooncake.oxidized_side_effect").withStyle(ChatFormatting.DARK_RED));
         }
     }
 
